@@ -1,46 +1,81 @@
 # React Users App
 
-A simple React application for managing users. You can view, edit, and delete user profiles after logging in.
+A React application for managing users with authentication, search, and filtering capabilities.
 
-## What's Inside
+## Features
 
-- Login page to access the app
-- List of users with pagination
+- User authentication (Login)
+- User list with pagination
+- Search and filter users
 - Edit user details
 - Delete users
-- Works on all devices (mobile, tablet, desktop)
+- Responsive design
+
+## Technologies Used
+
+- React
+- React Router
+- Tailwind CSS
+- Vite
+- Axios
 
 ## Getting Started
 
-### What You Need
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Node.js (version 14 or newer)
-- npm (version 6 or newer)
+## Deployment
 
-### How to Install
+The application is deployed on Vercel. You can access the live version at:
+[https://react-users-app-mu.vercel.app/](https://react-users-app-mu.vercel.app/)
 
-1. Download the project:
-```bash
-git clone https://github.com/HARSHA-3623/React-Users-App.git
-cd react-users-app
+### Deployment Steps
+
+1. Create a Vercel account
+2. Install Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+3. Login to Vercel:
+   ```bash
+   vercel login
+   ```
+4. Deploy the application:
+   ```bash
+   vercel
+   ```
+
+## API Integration
+
+The application uses the ReqRes API for user data:
+- Base URL: https://reqres.in/api
+- Endpoints:
+  - Login: POST /login
+  - Get Users: GET /users?page={page}
+  - Update User: PUT /users/{id}
+  - Delete User: DELETE /users/{id}
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+```
+VITE_API_BASE_URL=https://reqres.in/api
 ```
 
-2. Install the required packages:
-```bash
-npm install
-```
+## Contributing
 
-### How to Run
-
-1. Start the app:
-```bash
-npm run dev
-```
-
-2. Open your browser and go to:
-```
-http://localhost:5173
-```
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
 ## Default Login Credentials
 

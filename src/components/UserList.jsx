@@ -135,6 +135,22 @@ export function UserList() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [editingUser, setEditingUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterBy, setFilterBy] = useState('all');
+
+  // Filter users based on search term and filter criteria
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = searchTerm === '' || 
+      user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (filterBy === 'all') return matchesSearch;
+    if (filterBy === 'active') return matchesSearch && user.status === 'active';
+    if (filterBy === 'inactive') return matchesSearch && user.status === 'inactive';
+    
+    return matchesSearch;
+  });
 
   // Fetch users from API
   const fetchUsers = async () => {
@@ -191,7 +207,31 @@ export function UserList() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Users Management</h1>
         <div className="flex items-center space-x-2 text-gray-500">
           <User className="h-5 w-5 sm:h-6 sm:w-6" />
-          <span className="text-sm">Total Users: {users.length}</span>
+          <span className="text-sm">Total Users: {filteredUsers.length}</span>
+        </div>
+      </div>
+      
+      {/* Search and Filter Controls */}
+      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-4">
+        <div className="flex-1">
+          <input
+            type="text"
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+          />
+        </div>
+        <div className="flex gap-2">
+          <select
+            value={filterBy}
+            onChange={(e) => setFilterBy(e.target.value)}
+            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+          >
+            <option value="all">All Users</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
       </div>
       
@@ -249,29 +289,30 @@ export function UserList() {
             <tbody className="bg-white divide-y divide-gray-200">
               {isLoading ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-12">
-                    <div className="flex justify-center">
-                      <div className="relative">
-                        <div className="w-12 h-12 rounded-full border-4 border-indigo-200"></div>
-                        <div className="w-12 h-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin absolute top-0 left-0"></div>
-                      </div>
-                    </div>
+                  <td colSpan="4" className="px-6 py-4 text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
+                  </td>
+                </tr>
+              ) : filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                    No users found
                   </td>
                 </tr>
               ) : (
-                users.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                filteredUsers.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                       <UserAvatar user={user} />
                     </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                       <UserInfo user={user} />
                     </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap hidden sm:table-cell">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                       <div className="text-sm text-gray-500">{user.email}</div>
                     </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-                      <UserActions 
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-right">
+                      <UserActions
                         onEdit={() => setEditingUser(user)}
                         onDelete={() => handleDelete(user.id)}
                       />
