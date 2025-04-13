@@ -21,7 +21,7 @@ A simple React application for managing users. You can view, edit, and delete us
 
 1. Download the project:
 ```bash
-git clone <repository-url>
+git clone https://github.com/HARSHA-3623/React-Users-App.git
 cd react-users-app
 ```
 
@@ -30,10 +30,6 @@ cd react-users-app
 npm install
 ```
 
-3. Create a file named `.env` in the project folder and add:
-```env
-VITE_API_BASE_URL=your_api_base_url
-```
 
 ### How to Run
 
