@@ -30,7 +30,6 @@ cd react-users-app
 npm install
 ```
 
-
 ### How to Run
 
 1. Start the app:
@@ -42,6 +41,12 @@ npm run dev
 ```
 http://localhost:5173
 ```
+
+## Default Login Credentials
+
+Use these credentials to log in to the app:
+- Email: eve.holt@reqres.in
+- Password: cityslicka
 
 ## How the App Works
 
